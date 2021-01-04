@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/multi-recycle-view.iml" filepath="$PROJECT_DIR$/.idea/modules/multi-recycle-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MultiRecycleView.iml" filepath="$PROJECT_DIR$/.idea/modules/MultiRecycleView.iml" group="MultiRecycleView" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="MultiRecycleView/app" />
     </modules>
   </component>
 </project>

@@ -17,9 +17,91 @@ Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN�
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+示例代码：
+```
+multiRecycleView = new MultiRecycleView.Builder()
+                .setOnViewHolderCreateListener(new OnViewHolderCreateListener() {
+                    @Override
+                    public BaseHolder onCreateHolder(ViewGroup parent, int holderType) {
+                        switch (holderType) {
+                            case ITEM_TYPE_TXT:
+                                return new BaseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test_txt, parent, false), holderType) {
+                                    @Override
+                                    public void setData(Object data) {
+                                        if (!hadLoadData) {
+                                            if (data instanceof String) {
+                                                ((TextView) itemView.findViewById(R.id.tv_test)).setText((String) data);
+                                            }
+                                        }
+                                    }
+                                };
+                            case ITEM_TYPE_IMG:
+                                return new BaseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test_img, parent, false), holderType) {
+                                    @Override
+                                    public void setData(Object data) {
+                                        if (!hadLoadData) {
+                                            if (data instanceof Integer) {
+                                                ((ImageView) itemView.findViewById(R.id.iv_test)).setImageResource((int) data);
+                                            }
+                                        }
+                                    }
+                                };
+                            case ITEM_TYPE_BOTTOM_LIST_TYPE:
+                                return new SimpleCategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_category, parent, false), holderType);
+                            default:
+                        }
+                        return new BaseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test_img, parent, false), holderType) {
+                            @Override
+                            public void setData(Object data) {
+                                if (!hadLoadData) {
+                                    if (data instanceof Integer) {
+                                        ((ImageView) itemView.findViewById(R.id.iv_test)).setImageResource((int) data);
+                                    }
+                                }
+                            }
+                        };
+                    }
+                })
+                .setOnRefreshListener(new OnRefreshListener() {
+                    @Override
+                    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                        multiRecycleView.setData(ITEM_TYPE_TXT, "测试数据" + System.currentTimeMillis());
+                        refreshLayout.finishRefresh();
+                    }
+
+                })
+                .setOnLoadMoreDataListener(new OnLoadMoreDataListener() {
+                    @Override
+                    public void loadData(final CategoryBean dataType) {
+                        ArrayList<CategoryItemData> aa = new ArrayList();
+                        for (int i = 0; i < 30; i++) {
+                            CategoryItemData categoryItemData = new CategoryItemData();
+                            aa.add(categoryItemData);
+                        }
+                        multiRecycleView.setCategoryListData(dataType, aa);
+                    }
+                })
+                .build(getActivity());
+        View conview = multiRecycleView.createView();
+        ((LinearLayout) view.findViewById(R.id.ll_content)).addView(conview);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) conview.getLayoutParams();
+        params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+        conview.setLayoutParams(params);
+        multiRecycleView.setData(ITEM_TYPE_TXT, "测试数据");
+        multiRecycleView.setData(ITEM_TYPE_IMG, R.mipmap.ic_launcher);
+        for (int i = 0; i < 4; i++) {
+            multiRecycleView.setData(3+i, R.mipmap.ic_launcher);
+        }
+
+        ArrayList<CategoryProBean> menus = new ArrayList<>();
+        CategoryProBean categoryProBean = new CategoryProBean("菜单一", "类型1", R.layout.item_test_txt, CATEGORY_TYPE_LIST, 1);
+        CategoryProBean categoryProBean2 = new CategoryProBean("菜单二", "类型2", R.layout.item_test_txt, CATEGORY_TYPE_GRID, 2);
+        CategoryProBean categoryProBean3 = new CategoryProBean("菜单3", "类型3", R.layout.item_test_txt, CATEGORY_TYPE_FLOW, 3);
+        menus.add(categoryProBean);
+        menus.add(categoryProBean2);
+        menus.add(categoryProBean3);
+        multiRecycleView.setData(ITEM_TYPE_BOTTOM_LIST_TYPE, menus);
+```
 
 #### 参与贡献
 
